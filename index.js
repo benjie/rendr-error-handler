@@ -19,19 +19,22 @@ var dataAdapterConfig = {
  */
 function errorHandler(err, req, res, next) {
   console.log("WE REACHED THE ERROR HANDLER!");
-  // Calling process.exit to make it very clear this is never called.
-  process.exit(1);
+  var status = err.status || 500;
+  var message = err.message || "Internal Server Error";
+  res.status(err.status || 500);
+  res.send("<h1>Error " + status + " occurred</h1><h2>" + message + "</h2>");
 }
 app.use(errorHandler);
 
 var server = rendr.createServer({
   dataAdapterConfig: dataAdapterConfig,
+  errorHandler: errorHandler //< This is how you handle errors in rendr controllers/etc
 });
 
 app.use(server);
 
 server.configure(function(rendrExpressApp) {
-  rendrExpressApp.use(errorHandler);
+  //rendrExpressApp.use(errorHandler); //< Doesn't seem to be necessary?
 });
 
 function start(){
