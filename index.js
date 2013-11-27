@@ -14,12 +14,6 @@ var dataAdapterConfig = {
   }
 };
 
-var server = rendr.createServer({
-  dataAdapterConfig: dataAdapterConfig
-});
-
-app.use(server);
-
 /* We want to handle any error, so set up some errorHandler middleware
  * and have it called by both express directly and the rendrExpressApp
  */
@@ -30,10 +24,15 @@ function errorHandler(err, req, res, next) {
 }
 app.use(errorHandler);
 
+var server = rendr.createServer({
+  dataAdapterConfig: dataAdapterConfig,
+});
+
+app.use(server);
+
 server.configure(function(rendrExpressApp) {
   rendrExpressApp.use(errorHandler);
 });
-/* END of error handing. */
 
 function start(){
   var port = process.env.PORT || 3030;
