@@ -20,6 +20,21 @@ var server = rendr.createServer({
 
 app.use(server);
 
+/* We want to handle any error, so set up some errorHandler middleware
+ * and have it called by both express directly and the rendrExpressApp
+ */
+function errorHandler(err, req, res, next) {
+  console.log("WE REACHED THE ERROR HANDLER!");
+  // Calling process.exit to make it very clear this is never called.
+  process.exit(1);
+}
+app.use(errorHandler);
+
+server.configure(function(rendrExpressApp) {
+  rendrExpressApp.use(errorHandler);
+});
+/* END of error handing. */
+
 function start(){
   var port = process.env.PORT || 3030;
   app.listen(port);
