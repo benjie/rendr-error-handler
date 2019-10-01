@@ -11,7 +11,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "rendr": "~0.5.0-alpha09",
-    "express": "~3.4.4",
+    "express": "~4.17.1",
     "rendr-handlebars": "~0.1.0"
   }
 }
